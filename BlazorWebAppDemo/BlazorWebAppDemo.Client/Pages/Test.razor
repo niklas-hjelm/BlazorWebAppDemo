@@ -1,0 +1,35 @@
+﻿@page "/Test"
+@using Shared
+@rendermode InteractiveWebAssembly
+@inject IAnimalService AnimalService
+
+<PageTitle>Demo</PageTitle>
+
+<h3>Demo2</h3>
+
+<EditForm FormName="DemoForm" Model="NewAnimal" OnSubmit="SaveAnimal">
+    <InputText @bind-Value="NewAnimal!.Name"></InputText>
+    <InputText @bind-Value="NewAnimal!.Type"></InputText>
+    <button type="submit">Save</button>
+</EditForm>
+
+<Virtualize Items="AnimalService.GetAnimalList().OrderBy(a => a.Name).ToList()">
+    <div class="card">
+        <div class="card-body">
+            <h1>@context.Name</h1>
+        </div>
+    </div>
+</Virtualize>
+
+@code {
+
+    private Animal NewAnimal { get; set; } = new();
+
+    private void SaveAnimal()
+    {
+        AnimalService.AddAnimal(NewAnimal);
+        NewAnimal = new();
+        var test = AnimalService.GetAnimalList();
+    }
+
+}
