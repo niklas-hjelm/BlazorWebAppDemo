@@ -5,18 +5,25 @@
 
 <PageTitle>Demo</PageTitle>
 
-<h3>Demo2</h3>
+<h3>WebAssembly</h3>
 
-<EditForm FormName="DemoForm" Model="NewAnimal" OnSubmit="SaveAnimal">
+<EditForm FormName="DemoForm" Model="NewAnimal" OnValidSubmit="SaveAnimal">
+    <DataAnnotationsValidator/>
     <InputText @bind-Value="NewAnimal!.Name"></InputText>
     <InputText @bind-Value="NewAnimal!.Type"></InputText>
+    <InputText @bind-Value="NewAnimal!.Email"></InputText>
+    <InputText @bind-Value="NewAnimal!.Phone"></InputText>
     <button type="submit">Save</button>
+    <ValidationSummary/>
 </EditForm>
 
-<Virtualize Items="AnimalService.GetAnimalList().OrderBy(a => a.Name).ToList()">
+<Virtualize Items="AnimalService.GetAnimalList()">
     <div class="card">
         <div class="card-body">
             <h1>@context.Name</h1>
+        </div>
+        <div class="card-footer">
+            <h3>@context.Type</h3>
         </div>
     </div>
 </Virtualize>
@@ -29,7 +36,6 @@
     {
         AnimalService.AddAnimal(NewAnimal);
         NewAnimal = new();
-        var test = AnimalService.GetAnimalList();
     }
 
 }
